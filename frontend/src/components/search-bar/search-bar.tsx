@@ -1,8 +1,12 @@
 import TextField from "@mui/material/TextField";
-import { FC } from "react";
 
-export const SearchBar: FC = () => {
+export const SearchBar = () => {
   return (
-    <TextField label="Search categories" fullWidth={true} sx={{ my: 3 }} />
+    <TextField
+      label="Search categories"
+      fullWidth={true}
+      size="small"
+      sx={{ mt: 3, mb: 6 }}
+    />
   );
 };

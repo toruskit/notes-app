@@ -1,21 +1,38 @@
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
-import Typography from "@mui/material/Typography";
+import { NoteHeader } from "./note-header";
+import { NoteBody } from "./note-body";
+import { NoteActions } from "./note-actions";
+import { SxProps, Theme } from "@mui/material/styles";
+import { Note } from "../types";
+import { NoteBg } from "../note-bg/note-bg";
+import { NoteChip } from "../note-chip/note-chip";
 
-export const NoteItem = () => {
+export interface NoteItemProps extends Note {}
+
+export const NoteItem = ({
+  id,
+  title,
+  description,
+  createdAt,
+  category,
+  color,
+}: NoteItemProps) => {
   return (
-    <Card>
-      <CardHeader
-        title="Note title"
-        disableTypography={true}
-        sx={{ fontSize: "1rem", fontWeight: 500 }}
-      />
-      <CardContent>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit
-      </CardContent>
-      <CardActions>10.5.2026</CardActions>
+    <Card sx={styles.card}>
+      <NoteHeader title={title} />
+      <NoteBody description={description}></NoteBody>
+      <NoteChip label={category} />
+      <NoteActions />
+      <NoteBg color={color} />
     </Card>
   );
+};
+
+const styles: Record<string, SxProps<Theme>> = {
+  card: {
+    height: "100%",
+    boxSizing: "border-box",
+    position: "relative",
+    backgroundColor: "transparent",
+  },
 };
