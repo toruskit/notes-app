@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
-import { SxProps, Theme } from "@mui/material/styles";
+import { getStyles } from "src/utils/get-styles";
 
 export const NoteBg = ({ color }: { color: string | undefined }) => {
   return <Box sx={{ backgroundColor: color, ...styles.bg }}></Box>;
 };
 
-const styles: Record<string, SxProps<Theme>> = {
+const styles = getStyles({
   bg: {
     position: "absolute",
     left: 0,
@@ -13,6 +13,6 @@ const styles: Record<string, SxProps<Theme>> = {
     width: "100%",
     height: "100%",
     zIndex: -1,
-    opacity: 0.4
+    opacity: 0.4,
   },
-};
+});

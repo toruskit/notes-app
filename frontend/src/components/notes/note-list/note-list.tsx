@@ -59,6 +59,7 @@ export const NoteList = () => {
               description={textTruncate(item.description)}
               color={item.color}
               category={item.category}
+              createdAt={item.createdAt}
             />
           </Grid>
         ))}

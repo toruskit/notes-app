@@ -5,6 +5,9 @@ export const theme = createTheme({
     text: {
       primary: "rgba(0, 0, 0, 0.7)",
     },
+    primary: {
+      main: "#0c0c0c",
+    },
   },
 
   typography: {
@@ -40,6 +43,25 @@ export const theme = createTheme({
           "& .MuiInputBase-root": {
             borderRadius: "0.5rem",
           },
+        },
+      },
+    },
+
+    MuiDialog: {
+      styleOverrides: {
+        backdrop: {
+          backdropFilter: "blur(4px)",
+        },
+        paper: {
+          borderRadius: "1rem",
+        },
+      },
+    },
+
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "3rem",
         },
       },
     },

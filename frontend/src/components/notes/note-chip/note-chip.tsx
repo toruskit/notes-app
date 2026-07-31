@@ -1,6 +1,5 @@
 import Chip from "@mui/material/Chip";
-import { SxProps, Theme } from "@mui/material/styles";
-import { display } from "@mui/system";
+import type { Styles } from "../../../types/types";
 
 interface NoteChipProps {
   label?: string;
@@ -12,7 +11,7 @@ export const NoteChip = ({ label }: NoteChipProps) => {
   );
 };
 
-const styles: Record<string, SxProps<Theme>> = {
+const styles: Styles = {
   container: {
     mt: "auto",
     maxWidth: "fit-content",

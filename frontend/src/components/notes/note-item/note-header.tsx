@@ -1,5 +1,5 @@
 import CardHeader from "@mui/material/CardHeader";
-import { SxProps, Theme } from "@mui/material/styles";
+import type { Styles } from "../../../types/types";
 
 export interface NoteHeaderProps {
   title?: string;
@@ -11,6 +11,6 @@ export const NoteHeader = ({ title }: NoteHeaderProps) => {
   );
 };
 
-const styles: Record<string, SxProps<Theme>> = {
+const styles: Styles = {
   title: { fontSize: "1rem", fontWeight: 600, p: 0 },
 };

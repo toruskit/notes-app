@@ -1,13 +1,11 @@
 import Card from "@mui/material/Card";
 import { NoteHeader } from "./note-header";
 import { NoteBody } from "./note-body";
-import { NoteActions } from "./note-actions";
-import { SxProps, Theme } from "@mui/material/styles";
+import { NoteFooter } from "./note-footer";
 import { Note } from "../types";
 import { NoteBg } from "../note-bg/note-bg";
 import { NoteChip } from "../note-chip/note-chip";
-
-export interface NoteItemProps extends Note {}
+import type { Styles } from "../../../types/types";
 
 export const NoteItem = ({
   id,
@@ -16,19 +14,19 @@ export const NoteItem = ({
   createdAt,
   category,
   color,
-}: NoteItemProps) => {
+}: Note) => {
   return (
     <Card sx={styles.card}>
       <NoteHeader title={title} />
       <NoteBody description={description}></NoteBody>
       <NoteChip label={category} />
-      <NoteActions />
+      <NoteFooter createdAt={createdAt} />
       <NoteBg color={color} />
     </Card>
   );
 };
 
-const styles: Record<string, SxProps<Theme>> = {
+const styles: Styles = {
   card: {
     height: "100%",
     boxSizing: "border-box",

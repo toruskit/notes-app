@@ -1,53 +1,56 @@
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
-import { SxProps, Theme } from "@mui/material/styles";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { useState } from "react";
 import Dialog from "@mui/material/Dialog";
-import Box from "@mui/material/Box";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import TextField from "@mui/material/TextField";
 import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
+import { useModal } from "../../../hooks/use-modal";
+import { NoteAddForm } from "./note-add-form";
+import { NoteAddActions } from "./note-add-actions";
+import { NoteAddTitle } from "./note-add-title";
+import type { Styles } from "../../../types/types";
 
 export const NoteAdd = () => {
-  const [open, setOpen] = useState<boolean>(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const { open, modalOpen, modalClose } = useModal();
 
   return (
     <>
       <Card sx={styles.card}>
-        <CardActionArea sx={styles.action} onClick={handleOpen}>
+        <CardActionArea sx={styles.action} onClick={modalOpen}>
           <AddCircleIcon fontSize="large" />
           <CardContent sx={styles.content}>Add new note</CardContent>
         </CardActionArea>
       </Card>
-      <Dialog open={open} onClose={handleClose} role="alertdialog">
-        <DialogTitle>Add new note</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={modalClose}
+        role="alertdialog"
+        maxWidth="sm"
+        fullWidth={true}
+        sx={styles.dialog}
+      >
+        {/* Title */}
+        <DialogTitle>
+          <NoteAddTitle onCancel={modalClose} />
+        </DialogTitle>
+
+        {/* Form */}
         <DialogContent>
-          <form>
-            <TextField label="Title" size="small" />
-          </form>
+          <NoteAddForm formId="note-add-form" />
         </DialogContent>
+
+        {/* Buttons */}
         <DialogActions>
-          <Button>Cancel</Button>
-          <Button>Save</Button>
+          <NoteAddActions formId="note-add-form" onCancel={modalClose} />
         </DialogActions>
       </Dialog>
     </>
   );
 };
 
-const styles: Record<string, SxProps<Theme>> = {
+const styles: Styles = {
   card: {
     p: 0,
     boxSizing: "border-box",
@@ -67,5 +70,11 @@ const styles: Record<string, SxProps<Theme>> = {
 
   content: {
     p: 1,
+  },
+
+  dialog: {
+    ".MuiDialog-paper": {
+      p: 2,
+    },
   },
 };
