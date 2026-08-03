@@ -6,7 +6,7 @@ export const SearchBar = () => {
       label="Search categories"
       fullWidth={true}
       size="small"
-      sx={{ mt: 3, mb: 6 }}
+      sx={{ my: 3 }}
     />
   );
 };

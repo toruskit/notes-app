@@ -3,6 +3,6 @@ export interface Note {
   createdAt?: string;
   title?: string;
   description?: string;
-  category?: string;
+  category?: string[] | string;
   color?: string;
 }

@@ -5,38 +5,80 @@ import type { Styles } from "src/types/types";
 import Stack from "@mui/material/Stack";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { options } from "src/constants/contstants";
+import { colors, options } from "src/constants/constants";
 import { noteSchema } from "src/schemas/note.schema";
-
-export interface NoteAddFormProps {
-  formId: string;
-}
+import {
+  useAddNoteMutation,
+  useGetNotesQuery,
+  useUpdateNoteMutation,
+} from "src/api/notes-api";
+import { checkArray } from "src/utils/check-array";
 
 export type NoteFormData = z.infer<typeof noteSchema>;
 
-export const NoteAddForm = ({ formId }: NoteAddFormProps) => {
+interface NoteDialogFormProps {
+  onSuccess: () => void;
+  activeNoteId: string | null;
+}
+
+export const NoteDialogForm = ({
+  onSuccess,
+  activeNoteId,
+}: NoteDialogFormProps) => {
+  const { existingNote } = useGetNotesQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      existingNote: data?.find((note) => note.id === activeNoteId),
+    }),
+  });
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<NoteFormData>({
     resolver: zodResolver(noteSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      category: [],
+    values: {
+      title: existingNote?.title || "",
+      description: existingNote?.description || "",
+      category: checkArray(existingNote?.category) || [],
     },
   });
 
-  const onSubmit = (data: NoteFormData) => {
-    console.log(data);
+  const [addNote, { isLoading: isAdding }] = useAddNoteMutation();
+  const [updateNote, { isLoading: isUpdating }] = useUpdateNoteMutation();
+
+  const onSubmit = async (data: NoteFormData) => {
+    try {
+      if (activeNoteId) {
+        await updateNote({
+          id: activeNoteId,
+          title: data.title,
+          description: data.description,
+          category: data.category,
+        });
+      } else {
+        await addNote({
+          title: data.title,
+          description: data.description,
+          category: data.category,
+          color: [
+            colors[Math.floor(Math.random() * colors.length - 1)],
+          ].toString(),
+          createdAt: new Date().toISOString(),
+        });
+      }
+
+      onSuccess();
+    } catch (error) {
+      console.error("Error while saving note:", error);
+    }
   };
 
   return (
     <Stack
       spacing={2}
       component="form"
-      id={formId}
+      id="note-add-form"
       onSubmit={handleSubmit(onSubmit)}
       sx={{ mt: 2 }}
     >
@@ -46,7 +88,7 @@ export const NoteAddForm = ({ formId }: NoteAddFormProps) => {
         render={({ field }) => (
           <TextField
             {...field}
-            label="Title"
+            label="Title*"
             size="small"
             error={!!errors.title}
             helperText={errors.title?.message}
@@ -60,7 +102,7 @@ export const NoteAddForm = ({ formId }: NoteAddFormProps) => {
         render={({ field }) => (
           <TextField
             {...field}
-            label="Description"
+            label="Description*"
             size="small"
             error={!!errors.description}
             helperText={errors.description?.message}
@@ -83,7 +125,7 @@ export const NoteAddForm = ({ formId }: NoteAddFormProps) => {
               <TextField
                 {...params}
                 size="small"
-                label="Category"
+                label="Category*"
                 error={!!errors.category}
                 helperText={errors.category?.message}
               />

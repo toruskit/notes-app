@@ -18,9 +18,9 @@ export const NoteItem = ({
   return (
     <Card sx={styles.card}>
       <NoteHeader title={title} />
+      <NoteChip label={category as string[]} />
       <NoteBody description={description}></NoteBody>
-      <NoteChip label={category} />
-      <NoteFooter createdAt={createdAt} />
+      <NoteFooter id={id} createdAt={createdAt} />
       <NoteBg color={color} />
     </Card>
   );

@@ -52,9 +52,10 @@ export const theme = createTheme({
         backdrop: {
           backdropFilter: "blur(4px)",
         },
-        paper: {
+        paper: ({ theme }) => ({
           borderRadius: "1rem",
-        },
+          padding: theme.spacing(2),
+        }),
       },
     },
 
@@ -62,6 +63,14 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: "3rem",
+        },
+      },
+    },
+
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          padding: "8px",
         },
       },
     },
