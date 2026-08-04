@@ -8,6 +8,7 @@ import type { Breakpoint } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import type { Styles } from "src/types/types";
+import { modalZoom } from "src/constants/constants";
 
 export interface ModalDialogProps {
   open: boolean;
@@ -36,7 +37,7 @@ export const ModalDialog = ({
       slotProps={{
         paper: {
           sx: {
-            // ...modalZoom(open),
+            ...modalZoom(open),
           },
         },
       }}
