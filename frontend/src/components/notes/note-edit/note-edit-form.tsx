@@ -1,11 +1,10 @@
 import { Controller, useForm } from "react-hook-form";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import type { Styles } from "src/types/types";
 import Stack from "@mui/material/Stack";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { colors, options } from "src/constants/constants";
+import { colors, categories } from "src/constants/constants";
 import { noteSchema } from "src/schemas/note.schema";
 import {
   useAddNoteMutation,
@@ -13,18 +12,20 @@ import {
   useUpdateNoteMutation,
 } from "src/api/notes-api";
 import { checkArray } from "src/utils/check-array";
+import { useDispatch } from "react-redux";
+import { isActionLoading } from "src/store/notes-slice";
 
 export type NoteFormData = z.infer<typeof noteSchema>;
 
-interface NoteDialogFormProps {
+interface NoteEditFormProps {
   onSuccess: () => void;
   activeNoteId: string | null;
 }
 
-export const NoteDialogForm = ({
+export const NoteEditForm = ({
   onSuccess,
   activeNoteId,
-}: NoteDialogFormProps) => {
+}: NoteEditFormProps) => {
   const { existingNote } = useGetNotesQuery(undefined, {
     selectFromResult: ({ data }) => ({
       existingNote: data?.find((note) => note.id === activeNoteId),
@@ -44,11 +45,15 @@ export const NoteDialogForm = ({
     },
   });
 
-  const [addNote, { isLoading: isAdding }] = useAddNoteMutation();
-  const [updateNote, { isLoading: isUpdating }] = useUpdateNoteMutation();
+  const [addNote] = useAddNoteMutation();
+  const [updateNote] = useUpdateNoteMutation();
+
+  const dispatch = useDispatch();
 
   const onSubmit = async (data: NoteFormData) => {
     try {
+      dispatch(isActionLoading(true));
+
       if (activeNoteId) {
         await updateNote({
           id: activeNoteId,
@@ -62,7 +67,7 @@ export const NoteDialogForm = ({
           description: data.description,
           category: data.category,
           color: [
-            colors[Math.floor(Math.random() * colors.length - 1)],
+            colors[Math.floor(Math.random() * colors.length)],
           ].toString(),
           createdAt: new Date().toISOString(),
         });
@@ -71,6 +76,8 @@ export const NoteDialogForm = ({
       onSuccess();
     } catch (error) {
       console.error("Error while saving note:", error);
+    } finally {
+      dispatch(isActionLoading(false));
     }
   };
 
@@ -118,7 +125,7 @@ export const NoteDialogForm = ({
         render={({ field: { value, onChange } }) => (
           <Autocomplete
             multiple
-            options={options}
+            options={categories}
             value={value || []}
             onChange={(_, newValue) => onChange(newValue)}
             renderInput={(params) => (
@@ -130,20 +137,9 @@ export const NoteDialogForm = ({
                 helperText={errors.category?.message}
               />
             )}
-            sx={styles.autocomplete}
           />
         )}
       />
     </Stack>
   );
-};
-
-const styles: Styles = {
-  autocomplete: {
-    ".MuiChip-root": {
-      m: 0,
-      mx: 0.2,
-      height: "28px",
-    },
-  },
 };

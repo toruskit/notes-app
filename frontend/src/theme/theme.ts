@@ -15,6 +15,10 @@ export const theme = createTheme({
       fontSize: "2rem",
       fontWeight: 500,
     },
+    h2: {
+      fontSize: "1.6rem",
+      fontWeight: 500,
+    },
   },
   components: {
     MuiCard: {
@@ -71,6 +75,29 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           padding: "8px",
+        },
+      },
+    },
+
+    MuiAutocomplete: {
+      styleOverrides: {
+        inputRoot: {
+          ".MuiChip-root": {
+            margin: 0,
+            marginLeft: "2px",
+            marginRight: "2px",
+            height: "28px",
+          },
+        },
+      },
+    },
+
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          margin: 0,
+          mx: 200,
+          height: "28px",
         },
       },
     },

@@ -18,11 +18,24 @@ export const NoteList = () => {
     (state) => state.notes.sorting,
   ) as NotesState["sorting"];
 
+  const activeCategories = useSelector<RootState>(
+    (state) => state.notes.activeCategories,
+  ) as string[];
+
   const sortedNotes = useMemo(() => {
     if (!notes) return [];
 
-    return getSortedByDate(notes, sortingType);
-  }, [sortingType, notes]);
+    const sorted = getSortedByDate(notes, sortingType);
+    const filtered = sorted.filter((item) => {
+      if (!activeCategories.length) {
+        return sorted;
+      }
+
+      return activeCategories.every((cat) => item.category?.includes(cat));
+    });
+
+    return filtered;
+  }, [sortingType, activeCategories, notes]);
 
   if (isLoading) {
     return <Box>Loading notes</Box>;

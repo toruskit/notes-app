@@ -1,23 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface NotesState {
-  selectedCategories: string[];
+  activeCategories: string[];
   activeNoteId: string | null;
   sorting: "ascending" | "descending";
+  isActionLoading: boolean;
 }
 
 const initialState: NotesState = {
-  selectedCategories: [],
+  activeCategories: [],
   activeNoteId: null,
   sorting: "ascending",
+  isActionLoading: false,
 };
 
 export const notesSlice = createSlice({
   name: "notesSlice",
   initialState,
   reducers: {
-    setSelectedCategories: (state, action) => {
-      state.selectedCategories = action.payload;
+    setActiveCategories: (state, action) => {
+      state.activeCategories = action.payload;
     },
 
     setActiveNoteId: (state, action) => {
@@ -27,8 +29,16 @@ export const notesSlice = createSlice({
     setSorting: (state, action) => {
       state.sorting = action.payload;
     },
+
+    isActionLoading: (state, action) => {
+      state.isActionLoading = action.payload;
+    },
   },
 });
 
-export const { setSelectedCategories, setActiveNoteId, setSorting } =
-  notesSlice.actions;
+export const {
+  setActiveCategories,
+  setActiveNoteId,
+  setSorting,
+  isActionLoading,
+} = notesSlice.actions;

@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_URL } from "./api-url";
 import type { Note } from "src/components/notes/types";
-import { getSortedByDate } from "src/utils/get-date-sorted";
 
 export const notesApi = createApi({
   reducerPath: "notesApi",

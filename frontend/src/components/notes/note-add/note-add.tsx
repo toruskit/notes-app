@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useModal } from "../../../hooks/use-modal";
 import type { Styles } from "../../../types/types";
-import { NoteDialog } from "../note-dialog-edit/note-dialog";
+import { NoteEdit } from "../note-edit/note-edit";
 import { useDispatch } from "react-redux";
 import { setActiveNoteId } from "src/store/notes-slice";
 
@@ -13,6 +13,7 @@ export const NoteAdd = () => {
 
   const dispatch = useDispatch();
 
+  // Remove active note id (because of adding the new one) and open modal with the form
   const handleOpenModal = () => {
     dispatch(setActiveNoteId(null));
     modalOpen();
@@ -27,7 +28,7 @@ export const NoteAdd = () => {
         </CardActionArea>
       </Card>
 
-      <NoteDialog open={open} close={modalClose} />
+      <NoteEdit open={open} close={modalClose} />
     </>
   );
 };
@@ -37,7 +38,7 @@ const styles: Styles = {
     p: 0,
     boxSizing: "border-box",
     height: "100%",
-    minHeight: "12rem",
+    minHeight: "16.5rem",
   },
 
   action: (theme) => ({

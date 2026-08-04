@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import type { Styles } from "src/types/types";
 
-interface NoteDialogActionsProps {
+interface NoteEditActionsProps {
   onCancel?: () => void;
   onAction?: () => void;
   isActionLoading?: boolean;
@@ -10,13 +10,13 @@ interface NoteDialogActionsProps {
   actionButtonText?: string;
 }
 
-export const NoteDialogActions = ({
+export const NoteEditActions = ({
   onCancel,
   onAction,
   isActionLoading = false,
   cancelButtonText = "Cancel",
   actionButtonText = "Save",
-}: NoteDialogActionsProps) => {
+}: NoteEditActionsProps) => {
   return (
     <Box sx={styles.container}>
       <Button onClick={onCancel} size="large">

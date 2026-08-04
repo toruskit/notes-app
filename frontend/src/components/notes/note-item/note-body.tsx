@@ -12,5 +12,10 @@ export const NoteBody = ({ description }: NoteBodyProps) => {
 const styles: Styles = {
   container: {
     p: 0,
+    lineHeight: 1.4,
+    overflow: "hidden",
+    display: "-webkit-box",
+    WebkitLineClamp: 3,
+    WebkitBoxOrient: "vertical",
   },
 };
